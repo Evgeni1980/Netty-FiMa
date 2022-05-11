@@ -33,6 +33,12 @@
             <artifactId>netty-all</artifactId>
             <version>4.1.76.Final</version>
         </dependency>
+        <dependency>
+            <groupId>ru.gb.netty.fima.client</groupId>
+            <artifactId>netty-client</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
 
     <build>
