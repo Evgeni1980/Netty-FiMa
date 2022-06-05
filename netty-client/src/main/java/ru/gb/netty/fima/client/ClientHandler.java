@@ -2,12 +2,18 @@ package ru.gb.netty.fima.client;
 
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
-import ru.gb.netty.fima.autReg.BasicResponse;
+import javafx.application.Platform;
+
+import ru.gb.netty.fima.client.autReg.BasicResponse;
+import ru.gb.netty.fima.client.autReg.TextOfResponse;
 
 
 import java.io.FileOutputStream;
+import java.nio.file.Path;
 
 public class ClientHandler extends ChannelInboundHandlerAdapter {
+
+    PrimaryController pr;
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
@@ -20,33 +26,57 @@ public class ClientHandler extends ChannelInboundHandlerAdapter {
         BasicResponse response = (BasicResponse) msg;
         System.out.println(response.getResponse());
         String responseText = response.getResponse();
+        pr = (PrimaryController) ControllerRegistry.getControllerObject(PrimaryController.class);
 
-        if("login_ok".equals(responseText)){
-            PrimaryController pr =
-                    (PrimaryController) ControllerRegistry.getControllerObject(PrimaryController.class);
+        if(TextOfResponse.LOGIN_OK.equals(responseText)){
             pr.loginOk();
-        } if("login_no".equals(responseText)){
-            PrimaryController pr =
-                    (PrimaryController) ControllerRegistry.getControllerObject(PrimaryController.class);
-            pr.loginNo();
-        } if("reg_no".equals(responseText)){
-            PrimaryController pr =
-                    (PrimaryController) ControllerRegistry.getControllerObject(PrimaryController.class);
-            pr.regNo();
-        }if("log_off".equals(responseText)){
+
+        } if(TextOfResponse.LOGIN_NO.equals(responseText)){
+            pr.viewMsg(pr.LoginNo);
+
+        } if(TextOfResponse.REG_NO.equals(responseText)){
+            pr.viewMsg(pr.RegNo);
+
+        } if(TextOfResponse.REG_OK.equals(responseText)){
+            pr.viewMsg(pr.RegOk);
+
+        } if(TextOfResponse.LOG_OFF.equals(responseText)) {
             System.out.println("Клиент вышел");
-        } if("download_ok".equals(responseText)) {
-            System.out.println("Скачивание файла");
-            String pathOfFile = String.format("./%", response.getFile().getName());
-            FileOutputStream fos = new FileOutputStream(pathOfFile);
+            Connect.getEventLoopGroup().shutdownGracefully();
+
+        }  if(TextOfResponse.LOAD_OK.equals((responseText))){
+            ServerFilePanelController serverPanel =
+                    (ServerFilePanelController) ControllerRegistry.getControllerObject(ServerFilePanelController.class);
+            serverPanel.updatePath(Path.of(serverPanel.pathField.getText()));
+
+        } if(TextOfResponse.DOWNLOAD_OK.equals(responseText)) {
+            LocalFilePanelController localPanel =
+                    (LocalFilePanelController) ControllerRegistry.getControllerObject(LocalFilePanelController.class);
+            String path = String.format(localPanel.pathField.getText() + "/%s", response.getFileName());
+            FileOutputStream fos = new FileOutputStream(path);
             fos.write((response).getData());
+
+            localPanel.updatePath(Path.of(localPanel.pathField.getText()));
+        } if(TextOfResponse.DELETE_OK.equals(responseText)){
+            getServerPanel().updatePath(Path.of(getServerPanel().pathField.getText()));
+            alertForDeleteFile();
+        } if(TextOfResponse.DELETE_NO.equals(responseText)){
+            System.out.println("По какой то причине невозможно удалить файл");
         }
 
-//        if ("file list....".equals(responseText)) {
-//            ctx.close();
-//            return;
-//        }
-//        ctx.writeAndFlush(new GetFileListRequest());
+    }
+
+    private void alertForDeleteFile(){
+
+        Platform.runLater(() ->{
+            getServerPanel().alertInfo("Файл удален!");
+        });
+    }
+
+    private ServerFilePanelController getServerPanel(){
+        ServerFilePanelController serverPanel =
+                (ServerFilePanelController) ControllerRegistry.getControllerObject(ServerFilePanelController.class);
+        return serverPanel;
     }
 
 

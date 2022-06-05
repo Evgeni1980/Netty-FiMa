@@ -8,7 +8,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.layout.VBox;
-import ru.gb.netty.fima.autReg.DisconnectRequest;
+import ru.gb.netty.fima.client.autReg.DisconnectRequest;
 
 public class SecondaryController implements Initializable {
 
@@ -23,24 +23,23 @@ public class SecondaryController implements Initializable {
 
     private Connect connect;
 
-    @FXML
-    public void clickBtnExit(ActionEvent actionEvent) throws IOException {
-
-        PrimaryController pr =
-                (PrimaryController) ControllerRegistry.getControllerObject(PrimaryController.class);
-        connect = pr.getConnect();
-
-        DisconnectRequest disconnectRequest = new DisconnectRequest();
-        connect.getChannel().writeAndFlush(disconnectRequest);
-
-        App.setRoot("primary");
-    }
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         ControllerRegistry.register(this);
 
         leftPC = (LocalFilePanelController) leftPanel.getUserData();
         rightPC = (ServerFilePanelController) rightPanel.getUserData();
+    }
+
+    @FXML
+    public void clickBtnExit(ActionEvent actionEvent) throws IOException {
+
+        PrimaryController pr = (PrimaryController) ControllerRegistry.getControllerObject(PrimaryController.class);
+        connect = pr.getConnect();
+
+        DisconnectRequest disconnectRequest = new DisconnectRequest();
+        connect.getChannel().writeAndFlush(disconnectRequest);
+
+        App.setRoot("primary");
     }
 }

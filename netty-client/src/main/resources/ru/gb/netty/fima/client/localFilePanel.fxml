@@ -13,7 +13,7 @@
 
     <HBox>
         <TextField fx:id="pathField" editable="false" HBox.hgrow="ALWAYS" />
-        <Button onAction="#btnUpAction" text="Вверх" />
+        <Button onAction="#btnUpAction" text="Назад" />
         <Button onAction="#btnUpdateFileList" text="Обновить" />
     </HBox>
 

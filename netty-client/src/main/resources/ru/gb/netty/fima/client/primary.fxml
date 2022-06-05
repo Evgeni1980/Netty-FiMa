@@ -28,8 +28,10 @@
                <VBox.margin>
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </VBox.margin></Label>
-            <Label fx:id="RegNo" alignment="CENTER" managed="false" maxWidth="Infinity" minHeight="30" text="Пользователь с таким логином уже есть" visible="false" />
-            <Label fx:id="PassSame" alignment="CENTER" managed="false" maxWidth="Infinity" minHeight="30" text="Пароли не совпадают" visible="false" />
+            <Label fx:id="RegOk" alignment="CENTER" maxWidth="Infinity" minHeight="30" text="Регистрация прошла успешно. Теперь вы можете авторизоваться" managed="false" visible="false" />
+            <Label fx:id="RegNo" alignment="CENTER" maxWidth="Infinity" minHeight="30" text="Пользователь с таким логином уже есть" managed="false" visible="false" />
+            <Label fx:id="PassSame" alignment="CENTER" maxWidth="Infinity" minHeight="30" text="Пароли не совпадают" managed="false" visible="false" />
+            <Label fx:id="EmptyFieldReg" alignment="CENTER" maxWidth="Infinity" minHeight="30" text="Заполните, пожалуйста, все поля формы" managed="false" visible="false" />
             <TextField fx:id="RegLogin" maxWidth="Infinity" minHeight="30" promptText="Придумайте логин">
                <VBox.margin>
                   <Insets bottom="10.0" left="10.0" right="10.0" />
@@ -42,7 +44,7 @@
                <VBox.margin>
                   <Insets bottom="10.0" left="10.0" right="10.0" />
                </VBox.margin></PasswordField>
-            <Button maxWidth="Infinity" minHeight="30" onAction="#ClickBtnReg" text="Зарегистрироваться" HBox.hgrow="ALWAYS">
+            <Button onAction="#ClickBtnReg" maxWidth="Infinity" minHeight="30" text="Зарегистрироваться" HBox.hgrow="ALWAYS">
                <VBox.margin>
                   <Insets bottom="10.0" left="10.0" right="10.0" />
                </VBox.margin></Button>
@@ -52,7 +54,7 @@
                <VBox.margin>
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </VBox.margin></Label>
-            <Label fx:id="LoginNo" alignment="CENTER" managed="false" maxWidth="Infinity" minHeight="30" text="Логин или пароль введены неверно" visible="false" />
+            <Label fx:id="LoginNo" alignment="CENTER" maxWidth="Infinity" minHeight="30" text="Логин или пароль введены неверно" managed="false" visible="false" />
             <TextField fx:id="AuthLogin" maxWidth="Infinity" minHeight="30" promptText="Введите свой логин">
                <VBox.margin>
                   <Insets bottom="10.0" left="10.0" right="10.0" />
@@ -61,7 +63,7 @@
                <VBox.margin>
                   <Insets bottom="10.0" left="10.0" right="10.0" />
                </VBox.margin></PasswordField>
-            <Button alignment="CENTER" minHeight="30" onAction="#clickBtnGo" prefHeight="30.0" prefWidth="140.0" text="Войти" HBox.hgrow="ALWAYS">
+            <Button maxWidth="Infinity" minHeight="30" onAction="#clickBtnGo" text="Войти" HBox.hgrow="ALWAYS">
                <VBox.margin>
                   <Insets bottom="10.0" left="10.0" right="10.0" />
                </VBox.margin></Button>

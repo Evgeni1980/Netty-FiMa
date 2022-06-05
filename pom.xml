@@ -11,6 +11,7 @@
   <modules>
     <module>netty-client</module>
     <module>netty-server</module>
+    <module>netty-common</module>
   </modules>
 
   <name>Netty-FiMa</name>
@@ -24,6 +25,13 @@
   </properties>
 
   <dependencies>
+
+    <dependency>
+      <groupId>ru.gb.netty.fima</groupId>
+      <artifactId>netty-common</artifactId>
+      <version>1.0-SNAPSHOT</version>
+    </dependency>
+
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
@@ -33,7 +41,7 @@
     <dependency>
       <groupId>io.netty</groupId>
       <artifactId>netty-all</artifactId>
-      <version>4.1.76.Final</version>
+      <version>4.1.77.Final</version>
     </dependency>
     <dependency>
       <groupId>org.openjfx</groupId>

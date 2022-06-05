@@ -18,9 +18,9 @@ public class Connect {
     public Channel getChannel() {
         return channel;
     }
-
     public static final int MB_20 = 20 * 1_000_000;
     private Channel channel;
+    private static EventLoopGroup eventLoopGroup;
 
     public Connect(){
         new Thread(() -> {
@@ -54,6 +54,14 @@ public class Connect {
             }
         }).start();
 
+    }
+
+    public void close(){
+        channel.close();
+    }
+
+    public static EventLoopGroup getEventLoopGroup() {
+        return eventLoopGroup;
     }
 }
 

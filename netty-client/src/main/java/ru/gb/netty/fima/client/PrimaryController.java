@@ -4,21 +4,23 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
-import ru.gb.netty.fima.autReg.AuthRequest;
-import ru.gb.netty.fima.autReg.RegRequest;
+import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
+import ru.gb.netty.fima.client.autReg.AuthRequest;
+import ru.gb.netty.fima.client.autReg.RegRequest;
 
 public class PrimaryController implements Initializable {
     @FXML
-    public VBox RegPanel;
-    @FXML
-    public VBox AuthPanel;
+    public VBox RegPanel, AuthPanel;
     @FXML
     public TextField AuthLogin;
     @FXML
@@ -26,21 +28,35 @@ public class PrimaryController implements Initializable {
     @FXML
     public Label LoginNo;
     @FXML
-    public Label RegNo;
+    public Label PassSame, RegNo, RegOk, EmptyFieldReg;
     @FXML
     public TextField RegLogin;
     @FXML
-    public PasswordField RegPassword;
-    @FXML
-    public PasswordField RegPasswordCopy;
-    @FXML
-    public Label PassSame;
+    public PasswordField RegPassword, RegPasswordCopy;
 
-    public Connect getConnect() {
-        return connect;
+    private static Stage stage;
+    private Connect connect;
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        ControllerRegistry.register(this);
+        connect = new Connect();
+
+        Platform.runLater(() -> {
+            stage = (Stage) AuthPanel.getScene().getWindow();
+            stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+                @Override
+                public void handle(WindowEvent windowEvent) {
+                    stage.close();
+                    Connect.getEventLoopGroup().shutdownGracefully();
+                }
+            });
+        });
     }
 
-    private Connect connect;
+    public Connect getConnect()  {
+        return connect;
+    }
 
     @FXML
     public void loginOk() throws IOException {
@@ -71,31 +87,34 @@ public class PrimaryController implements Initializable {
         connect.getChannel().writeAndFlush(authRequest);
     }
 
-    public void loginNo(){
-        LoginNo.setVisible(true);
-        LoginNo.setManaged(true);
-    }
-
-    public void regNo(){
-        PassSame.setVisible(false);
+    @FXML
+    public void clearMsg(){
+        EmptyFieldReg.setManaged(false);
+        EmptyFieldReg.setVisible(false);
+        RegNo.setManaged(false);
+        RegNo.setVisible(false);
+        RegOk.setManaged(false);
+        RegOk.setVisible(false);
         PassSame.setManaged(false);
-        RegNo.setVisible(true);
-        RegNo.setManaged(true);
+        PassSame.setVisible(false);
     }
 
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        ControllerRegistry.register(this);
-        connect = new Connect();
+    @FXML
+    public void viewMsg(Label msg){
+        msg.setVisible(true);
+        msg.setManaged(true);
     }
 
+
+    @FXML
     public void ClickBtnReg(ActionEvent actionEvent) {
+        clearMsg();
         if(!RegPassword.getText().trim().equals(RegPasswordCopy.getText().trim())){
-            RegNo.setVisible(false);
-            RegNo.setManaged(false);
-            PassSame.setVisible(true);
-            PassSame.setManaged(true);
-        } else {
+            viewMsg(PassSame);
+        } else if(RegPassword.getText().isEmpty() || RegPasswordCopy.getText().isEmpty() || RegLogin.getText().isEmpty()){
+            viewMsg(EmptyFieldReg);
+        }
+        else {
             RegRequest regRequest = new RegRequest(RegLogin.getText().trim(), RegPassword.getText().trim());
             connect.getChannel().writeAndFlush(regRequest);
         }
