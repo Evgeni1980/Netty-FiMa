@@ -1,4 +1,4 @@
-package ru.gb.netty.fima.common;
+package ru.gb.netty.fima.common.dto;
 
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;

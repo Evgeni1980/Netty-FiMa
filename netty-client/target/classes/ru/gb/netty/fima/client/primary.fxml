@@ -73,4 +73,8 @@
          </VBox>
       </StackPane>
    </center>
+
+   <bottom>
+      <Button maxWidth="Infinity" minHeight="30" onAction="#loginOk" text="Ко второму экрану"/>
+   </bottom>
 </BorderPane>

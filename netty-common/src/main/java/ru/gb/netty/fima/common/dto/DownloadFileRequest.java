@@ -1,6 +1,4 @@
-package ru.gb.netty.fima.common;
-
-import java.nio.file.Path;
+package ru.gb.netty.fima.common.dto;
 
 public class DownloadFileRequest implements BasicRequest{
 

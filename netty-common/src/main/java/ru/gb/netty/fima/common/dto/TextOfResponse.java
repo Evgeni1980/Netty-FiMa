@@ -1,4 +1,4 @@
-package ru.gb.netty.fima.common;
+package ru.gb.netty.fima.common.dto;
 
 public class TextOfResponse {
     public final static String LOGIN_OK = "login_ok";

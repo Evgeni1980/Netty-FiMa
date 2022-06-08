@@ -8,6 +8,8 @@ import ru.gb.netty.fima.client.autReg.BasicResponse;
 import ru.gb.netty.fima.client.autReg.TextOfResponse;
 
 
+
+
 import java.io.FileOutputStream;
 import java.nio.file.Path;
 

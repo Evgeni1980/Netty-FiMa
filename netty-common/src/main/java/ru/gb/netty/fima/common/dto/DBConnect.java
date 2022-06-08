@@ -1,4 +1,4 @@
-package ru.gb.netty.fima.common;
+package ru.gb.netty.fima.common.dto;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

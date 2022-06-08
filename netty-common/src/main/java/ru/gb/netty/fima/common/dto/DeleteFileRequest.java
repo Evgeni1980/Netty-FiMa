@@ -1,4 +1,4 @@
-package ru.gb.netty.fima.common;
+package ru.gb.netty.fima.common.dto;
 
 public class DeleteFileRequest implements BasicRequest{
     private String pathOfFile;
